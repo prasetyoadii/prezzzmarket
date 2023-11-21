@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            background-color: #58d358; /* Warna background hijau muda */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Menggunakan 100% tinggi viewport */
+            margin: 0; /* Menghilangkan margin default */
+        }
+
+        .login {
+            background-color: #ffffff; /* Warna latar belakang kotak login */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Efek bayangan untuk kotak login */
+        }
+
+        .login h1 {
+            text-align: center;
+            color: #008000; /* Warna hijau muda untuk judul login */
+        }
+
+        .form-control {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #008000; /* Warna border hijau muda */
+            border-radius: 5px;
+        }
+
+        .btn.login_btn {
+            width: 30%;
+            margin: 0 auto; /* Membuat tombol berada di tengah secara horizontal */
+            background-color: #008000;
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            display: block; /* Mengubah tombol menjadi elemen blok untuk menerapkan margin: 0 auto; */
+        }
+
+        .btn.login_btn:hover {
+            background-color: #005700; /* Warna tombol login saat dihover hijau tua */
+        }
+
+        .login p {
+            text-align: center; /* Memusatkan teks secara horizontal */
+            margin-top: 20px; /* Memberi sedikit margin di atas teks */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login">
+        <h1>Login</h1>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <div>
+                <input type="text" name="username" placeholder="Username" class="form-control">
+            </div>
+
+            <div>
+                <input type="password" name="password" placeholder="Password" class="form-control">
+            </div>
+
+            <div>
+                <input class="btn login_btn" type="submit" value="Login">
+            </div>
+        </form>
+
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <p>Don't have an account yet? <a href="{% url 'main:register' %}">Register Now</a></p>
+    </div>
+</body>
+
+</html>

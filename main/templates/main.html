@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<html>
+<head>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30;
+        }
+
+        .last-login-text {
+            bottom: 20px;
+            right: 20px;
+            background-color: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .header-right {
+            display: flex;
+            gap: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .add-button {
+            margin: 0 200px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 14px 20px; /* Menetapkan padding tombol */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 5px; /* Menambahkan margin bawah antara tombol dan kartu pertama */
+            text-decoration: none;
+        }
+        .add-button:hover {
+            background-color: #45a049;
+        }
+
+        .item-count {
+            font-size: 20px; /* Ukuran font lebih besar */
+            font-weight: bold; /* Ketebalan font tebal */
+            margin-bottom: 10px; /* Margin bawah 10px */
+            font-family: "Roboto", sans-serif; /* Menggunakan font Roboto atau fallback sans-serif */
+        }
+
+        .top-section {
+            margin: 0 80px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            width: 50%; /* Lebar maksimum untuk top-section */
+            margin-bottom: 5px; 
+        }
+
+        .card {
+            width: 300px;
+            margin: 20px;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            background-color: white;
+            transition: box-shadow 0.3s ease;
+        }
+        
+        .last-card {
+            background-color: #98FB98;
+        }
+
+        .card-buttons {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .card-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100px; 
+            text-align: center; 
+            text-decoration: none;
+        }
+        
+
+        .button-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px; 
+        }
+
+        .card-button:last-child {
+            margin-right: 0; 
+        }
+
+        .card-button:hover {
+            background-color: #45a049;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            background-color: #f44336;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .logout:hover {
+            background-color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <p><strong>Nama:</strong> {{ name }}</p>
+            <p><strong>Kelas:</strong> {{ class }}</p>
+        </div>
+        <div class="header-right">
+            <a href="{% url 'main:logout' %}" class="logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="top-section">
+        <div class="top-section">
+            <h2 class="item-count">Anda menyimpan {{ items.count }} item disini</h2>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Add Item by AJAX</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="item_card"></div>
+    </div>`        
+    
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add New Item</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form" onsubmit="return false;">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="name" name="name"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="amount" class="col-form-label">Amount:</label>
+                            <input type="number" class="form-control" id="amount" name="amount"></input>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="col-form-label">Description:</label>
+                            <textarea class="form-control" id="description" name="description"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="button_add" data-bs-dismiss="modal">Add Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="last-login-text">
+        Sesi terakhir login: {{ last_login }}
+    </div>
+
+    
+
+</body>
+<script>
+    async function getItems() {
+        return fetch("{% url 'main:get_item_json' %}").then((res) => res.json());
+    }
+
+    async function deleteItems(id) {
+        const response = await fetch(`/remove-item/${id}`);
+        refreshItems();
+    }
+    
+    async function refreshItems() {
+        document.getElementById("item_card").innerHTML = ""
+        const items = await getItems()
+        let htmlString = ""
+        items.forEach((item) => {
+            htmlString += `
+                    <div class="card">
+                        <h2>${item.fields.name }</h2>
+                        <p><strong>Jumlah:</strong> ${ item.fields.amount }</p>
+                        <p><strong>Deskripsi:</strong> ${ item.fields.description }</p>
+                        
+                    </div>`
+            })
+            document.getElementById("item_card").innerHTML = htmlString
+    }
+                    
+    refreshItems()
+    async function addItem() {
+        fetch("{% url 'main:add_item_ajax' %}", {
+            method: "POST",
+            body: new FormData(document.querySelector('#form'))
+        }).then(refreshItems)
+            const updatedItems = await getItems();
+            let newItemCount = updatedItems.length;
+            document.querySelector('.item-count').innerText = `Anda menyimpan ${newItemCount} item disini`;
+            document.getElementById("form").reset();
+            initialItemCount = newItemCount;
+        document.getElementById("form").reset()
+        return false
+    }
+
+    document.getElementById("button_add").onclick = addItem
+</script>
+{% endblock content %}
+</html>

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<html>
+<style>
+     .add-item-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #4caf50;
+    }
+
+    .add-item-form {
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+    }
+
+    .add-item-header {
+        color: #4caf50;
+    }
+
+    .add-item-table {
+        margin: 0 auto;
+    }
+
+    .add-item-button {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="add-item-container">
+    <div class="add-item-form">
+        <h1 class="add-item-header">Edit Item</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <table class="add-item-table">
+                {{ form.as_table }}
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="Edit Item" class="add-item-button">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+{% endblock %}

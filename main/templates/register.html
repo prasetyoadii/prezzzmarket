@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <title>Register</title>
+{% endblock meta %}
+
+{% block content %}  
+
+<style>
+    .login-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #4caf50;
+    }
+
+    .login {
+        text-align: center;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+    }
+
+    .login-form table {
+        margin: 0 auto;
+    }
+
+    .login-form input[type="text"], 
+    .login-form input[type="password"] {
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 8px; /* Menambahkan padding agar input terlihat lebih baik */
+        box-sizing: border-box; /* Memastikan padding tidak mempengaruhi lebar input */
+    }
+
+    .login-form input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .login-form input[type="submit"]:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<div class="login-container">
+    <div class="login">
+        <h1>Register</h1>  
+
+        <form method="POST" class="login-form">  
+            {% csrf_token %}  
+            <table>
+                {{ form.as_table }}  
+                <tr>  
+                    <td></td>
+                    <td><input type="submit" name="submit" value="Daftar"/></td>  
+                </tr>  
+            </table>  
+        </form>
+
+        {% if messages %}  
+            <ul>   
+                {% for message in messages %}  
+                    <li>{{ message }}</li>  
+                {% endfor %}  
+            </ul>   
+        {% endif %}
+    </div>
+</div>  
+
+{% endblock content %}
