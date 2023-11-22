@@ -79,6 +79,7 @@ def show_json_by_id(request, id):
     data = Item.objects.filter(pk=id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
+@csrf_exempt
 def get_item_json(request):
     item = Item.objects.filter(user = request.user)
     return HttpResponse(serializers.serialize('json', item))
